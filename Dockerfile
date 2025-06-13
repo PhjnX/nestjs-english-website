@@ -2,10 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn install --network-timeout 100000 --verbose
-
 COPY . .
+
+RUN yarn install --network-timeout 100000 --verbose
 
 RUN npx prisma generate
 
