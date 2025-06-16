@@ -1,20 +1,24 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService) {
+    const secret = config.get<string>('JWT_SECRET');
+    if (!secret) {
+      // Báo lỗi luôn, không cho fallback
+      throw new UnauthorizedException('JWT_SECRET env is missing!');
+    }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: config.get('JWT_SECRET') || 'KHONG_CO_KHOA',
+      secretOrKey: secret,
     });
   }
 
   async validate(payload: any) {
-    // 👇 Trả lại toàn bộ payload để controller có thể đọc req.user.data.user_id
     return payload;
   }
 }

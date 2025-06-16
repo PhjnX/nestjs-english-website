@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PrismaModule, // <- Thêm dòng này
     JwtModule.register({
-      secret: 'KHONG_CO_KHOA',
+      secret: process.env.JWT_SECRET, // hoặc dùng ConfigService nếu bạn đã inject
       signOptions: { expiresIn: '10d' },
     }),
   ],
