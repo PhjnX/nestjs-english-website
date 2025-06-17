@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService) {
     const secret = config.get<string>('JWT_SECRET');
+    console.log('JWT_SECRET on production:', process.env.JWT_SECRET);
 
     if (!secret) {
       throw new UnauthorizedException(
