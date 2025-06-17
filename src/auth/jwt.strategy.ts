@@ -7,10 +7,13 @@ import { ConfigService } from '@nestjs/config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService) {
     const secret = config.get<string>('JWT_SECRET');
+
     if (!secret) {
-      // Báo lỗi luôn, không cho fallback
-      throw new UnauthorizedException('JWT_SECRET env is missing!');
+      throw new UnauthorizedException(
+        'JWT_SECRET environment variable is missing.',
+      );
     }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -19,6 +22,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return payload;
+    // Trả ra các thông tin quan trọng từ payload
+    return {
+      userId: payload.sub,
+      username: payload.username,
+      role: payload.role,
+    };
   }
 }
