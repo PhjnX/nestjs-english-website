@@ -42,7 +42,7 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(
       { data: { user_id: getUser.user_id, role: getUser.role } },
-      { expiresIn: '10d', secret: 'KHONG_CO_KHOA' },
+      { expiresIn: '10d' }, // KHÔNG truyền secret ở đây!
     );
 
     return {
