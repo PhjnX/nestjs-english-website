@@ -42,8 +42,8 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(
       {
-        sub: getUser.user_id, // chuẩn key cho userId
-        username: getUser.user_name, // nếu cần lấy username ở FE
+        sub: getUser.user_id,
+        username: getUser.user_name,
         role: getUser.role,
       },
       { expiresIn: '10d' },
