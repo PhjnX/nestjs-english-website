@@ -93,6 +93,7 @@ model AssessmentQuestion {
   group            QuestionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
   @@index([groupId], map: "AssessmentQuestion_groupId_fkey")
+  @@map("AssessmentQuestion")
 }
 
 model assessment_result {
